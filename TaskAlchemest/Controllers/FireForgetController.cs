@@ -14,12 +14,12 @@ namespace TaskAlchemest.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Message = "These methods are 'Fire & Forget'. View will be returned immediatly while tasks run on seperate threads in the background.";
+            ViewBag.Message = "These methods are 'Fire & Forget'. View/UI control will be returned immediatly while tasks run on seperate thread(s) in the background. ActionResults do not have to be marked with 'async' and method calls do not have to be 'await'(ed).";
 
             return View();
         }
 
-        public ActionResult _Parallel_PartialView(string threadType)
+        public ActionResult _Response_PartialView(string threadType)
         {
 
             #region Initialization
@@ -37,14 +37,14 @@ namespace TaskAlchemest.Controllers
             switch (threadType)
             {
 
-                case "simple-thread":
+                case "basic-thread":
 
                     //Simple method:
                     //Also, don't forget to use EXTENSIVE ERROR HANDLING in your routine because any unhandled exceptions outside of a debugger will abruptly crash your application:
-                    Task.Run(() => Methods.ParallelMethods.AsyncVoidWithParallelProcessing());  // <--- Preferred Optiob
+                    ThreadPool.QueueUserWorkItem(o => Methods.ParallelMethods.AsyncVoidWithParallelProcessing()); //<-- Preferred option fpr Fire/Forget when considering performance.
 
                     //Alternate option:
-                    //ThreadPool.QueueUserWorkItem(o => Methods.ParallelMethods.AsyncVoidWithParallelProcessing());
+                    //Task.Run(() => Methods.ParallelMethods.AsyncVoidWithParallelProcessing());  // <--- Task is preferred Option when not handling fire/forget scenarios: http://blogs.msdn.com/b/pfxteam/archive/2009/10/06/9903475.aspx
                     
 
                     break;

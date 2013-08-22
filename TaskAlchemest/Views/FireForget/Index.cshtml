@@ -12,21 +12,23 @@
 
     <script type="text/javascript"> 
         $(function(){
-            $("#FireForget_Button_Simple").click(function () {
+            $("#FireForget_Button_Basic").click(function () {
+                $("#FireForget_Button_Basic").attr("disabled", true);
                 $('#FireForget_Result').html("<div><img src='/img/loaders/preloader.gif' /></div>");
                   $.ajax({
-                      url: '@Url.Action("_Parallel_PartialView", "FireForget", new {threadType="simple-thread"})',
+                      url: '@Url.Action("_Response_PartialView", "FireForget", new {threadType="basic-thread"})',
                       data: { exampleParameter : "Example" },
                       contentType: "application/json; charset=utf-8",
                       //Upon a successful request - data will store your Partial View contents
                       success: function (data) {
-                          $('#FireForget1_Result').html(data);
+                          $("#FireForget_Button_Basic").attr("disabled", false);
+                          $('#FireForget_Result').html(data);
                       }
                   });
              });
         });
     </script>
-    <input id="FireForget_Button_Simple" class="btn btn-primary" type="button" value="Run Parallel Tasks (Simple Thread)" />
+    <input id="FireForget_Button_Basic" class="btn btn-primary" type="button" value="Fire & Forget Parallel Tasks (Basic Thread)" />
 
 
 
@@ -35,26 +37,28 @@
 <script type="text/javascript">
     $(function () {
         $("#FireForget_Button_Detailed").click(function () {
+            $("#FireForget_Button_Detailed").attr("disabled", true);
             $('#FireForget_Result').html("<div><img src='/img/loaders/preloader.gif' /></div>");
             $.ajax({
-                url: '@Url.Action("_Parallel_PartialView", "FireForget", new {threadType="detailed-thread"})',
+                url: '@Url.Action("_Response_PartialView", "FireForget", new {threadType="detailed-thread"})',
                 data: { exampleParameter: "Example" },
                 contentType: "application/json; charset=utf-8",
                 //Upon a successful request - data will store your Partial View contents
                 success: function (data) {
-                    $('#FireForget1_Result').html(data);
+                    $("#FireForget_Button_Detailed").attr("disabled", false);
+                    $('#FireForget_Result').html(data);
                 }
             });
         });
     });
     </script>
-    <input id="FireForget_Button_Detailed" class="btn btn-primary" type="button" value="Run Parallel Tasks (Detailed Thread)" />
+    <input id="FireForget_Button_Detailed" class="btn btn-primary" type="button" value="Fire & Forget Parallel Tasks (Detailed Thread)" />
 
 
 
 
 
-    <div id="FireForget1_Result" style="background-color:azure">
+    <div id="FireForget_Result" style="background-color:azure">
         <!-- FireForget 1 Result -->
     </div>
 
