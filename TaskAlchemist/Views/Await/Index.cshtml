@@ -1,0 +1,43 @@
+﻿@{
+    ViewBag.Title = "Await";
+}
+<hgroup>
+    <h2>@ViewBag.Title.</h2>
+    <h4>@ViewBag.Message</h4>
+</hgroup>
+<div>
+
+    <hr />
+
+
+    <script type="text/javascript"> 
+        $(function(){
+            $("#Await_Button_Parallel").click(function () {
+                $("#Await_Button_Parallel").attr("disabled", true);
+                $('#Await_Result').html("<div><img src='/img/loaders/preloader.gif' /></div>");
+                  $.ajax({
+                      url: '@Url.Action("_Response_PartialView", "Await", new {type="basic"})',
+                      data: { exampleParameter : "Example" },
+                      contentType: "application/json; charset=utf-8",
+                      //Upon a successful request - data will store your Partial View contents
+                      success: function (data) {
+                          $("#Await_Button_Parallel").attr("disabled", false);
+                          $('#Await_Result').html(data);
+                      }
+                  });
+             });
+        });
+    </script>
+    <p><input id="Await_Button_Parallel" class="btn btn-primary" type="button" value="Await Parallel Tasks" /></p>
+
+
+
+
+
+
+    <div id="Await_Result" style="background-color:azure">
+        <!-- Await Result -->
+    </div>
+
+
+</div>
