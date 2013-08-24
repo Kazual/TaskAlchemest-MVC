@@ -7,9 +7,15 @@ namespace TaskAlchemist.Models
 {
     public class ProcessingResult
     {
-        public long timeElapsed;
-        public string methodType;
-        public string description;
+
+        public string Message { get; set; } 
+        public string Description { get; set; } 
+        public string AlertType { get; set; } 
+        public long TimeElapsed { get; set; } 
+        public string MethodType { get; set; } 
+        public int ThreadsUsed { get; set; }
+
+        public string Result { get; set; } 
 
     }
 }

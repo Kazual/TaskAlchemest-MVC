@@ -1,0 +1,135 @@
+﻿@{
+    ViewBag.Title = "Asynchronous";
+}
+<hgroup>
+    <h2>@ViewBag.Title.</h2>
+    <h4>@ViewBag.Message</h4>
+</hgroup>
+<div>
+
+
+
+
+<hr /><h6>Standard Methods</h6>
+
+
+
+    <script type="text/javascript">
+        $(function () {
+            $("#Await_Button_Void").click(function () {
+                $("#Await_Button_Void").attr("disabled", true);
+                $('#Await_Result').html("<div><img src='/img/loaders/loader.gif' /></div>");
+                $.ajax({
+                    url: '@Url.Action("_Response_PartialView", "Asynchronous", new { type = "void" })',
+                    data: { exampleParameter: "Example" },
+                    contentType: "application/json; charset=utf-8",
+                    //Upon a successful request - data will store your Partial View contents
+                    success: function (data) {
+                        $("#Await_Button_Void").attr("disabled", false);
+                        $('#Await_Result').html(data);
+                    }
+                });
+            });
+        });
+    </script>
+    <p><input id="Await_Button_Void" class="btn btn-primary" type="button" value="Void Method (Await)" /></p>
+
+
+
+
+    <script type="text/javascript">
+        $(function () {
+            $("#Await_Button_Response").click(function () {
+                $("#Await_Button_Response").attr("disabled", true);
+                $('#Await_Result').html("<div><img src='/img/loaders/loader.gif' /></div>");
+                $.ajax({
+                    url: '@Url.Action("_Response_PartialView", "Asynchronous", new { type = "string-response" })',
+                    data: { exampleParameter: "Example" },
+                    contentType: "application/json; charset=utf-8",
+                    //Upon a successful request - data will store your Partial View contents
+                    success: function (data) {
+                        $("#Await_Button_Response").attr("disabled", false);
+                        $('#Await_Result').html(data);
+                    }
+                });
+            });
+        });
+    </script>
+    <p><input id="Await_Button_Response" class="btn btn-primary" type="button" value="Response Method (Await)" /></p>
+
+
+
+
+<hr /><h6>Parallel Methods</h6>
+
+
+    <script type="text/javascript"> 
+        $(function(){
+            $("#Await_Button_Parallel").click(function () {
+                $("#Await_Button_Parallel").attr("disabled", true);
+                $('#Await_Result').html("<div><img src='/img/loaders/loader.gif' /></div>");
+                  $.ajax({
+                      url: '@Url.Action("_Response_PartialView", "Asynchronous", new { type = "basic-parallel" })',
+                      data: { exampleParameter : "Example" },
+                      contentType: "application/json; charset=utf-8",
+                      //Upon a successful request - data will store your Partial View contents
+                      success: function (data) {
+                          $("#Await_Button_Parallel").attr("disabled", false);
+                          $('#Await_Result').html(data);
+                      }
+                  });
+             });
+        });
+    </script>
+    <p><input id="Await_Button_Parallel" class="btn btn-primary" type="button" value="Parallel Tasks (Await)" /></p>
+
+
+
+<hr />
+
+
+    <div id="Await_Result">
+        <!-- Await Result --><p class="text muted">Results Pane.</p>
+    </div>
+
+
+    <hr />
+
+    <div>
+
+        <h2>More on Asynchronous Methods</h2>
+        <h4>In applications where thread starvation might occur, you can configure actions to be processed asynchronously. <u>An asynchronous request takes the same amount of time to process as a synchronous request</u>. For example, if a request makes a network call that requires two seconds to complete, the request takes two seconds whether it is performed synchronously or asynchronously. <u>However, during an asynchronous call, the server is not blocked from responding to other requests while it waits for the first request to complete</u>. Therefore, asynchronous requests<u>prevent request queuing when there are many requests that invoke long-running operations and will run on a seperate thread</u>. View will not be returned unting all tasks are complete.</h4>
+        <h4>When an asynchronous action is invoked, the following steps occur:</h4>
+
+        <p>1. The Web server gets a thread from the thread pool (the worker thread) and schedules it to handle an incoming request. This worker thread initiates an asynchronous operation.</p>
+        <p>2. The worker thread is returned to the thread pool to service another Web request.</p>
+        <p>3. When the asynchronous operation is complete, it notifies ASP.NET.</p>
+        <p>4. The Web server gets a worker thread from the thread pool (which might be a different thread from the thread that started the asynchronous operation) to process the remainder of the request, including rendering the response.</p>
+
+        <h4>The following illustration shows the asynchronous pattern:</h4>
+        
+        <div><img src="~/img/illustrations/async1.png" /></div>
+
+        <h5>In general, use synchronous pipelines when the following conditions are true:</h5>
+
+        <ul>
+            <li>The operations are simple or short-running.</li>
+            <li>Simplicity is more important than efficiency.</li>
+            <li>The operations are primarily CPU operations instead of operations that involve extensive disk or network overhead. Using asynchronous action methods on CPU-bound operations provides no benefits and results in more overhead.</li>
+        </ul>
+
+        <h5>In general, use asynchronous pipelines when the following conditions are true:</h5>
+
+        <ul>
+            <li>The operations are network-bound or I/O-bound instead of CPU-bound.</li>
+            <li>Testing shows that the blocking operations are a bottleneck in site performance and that IIS can service more requests by using asynchronous action methods for these blocking calls.</li>
+            <li>Parallelism is more important than simplicity of code.</li>
+            <li>You want to provide a mechanism that lets users cancel a long-running request.</li>
+        </ul>
+
+
+
+    </div>
+
+
+</div>

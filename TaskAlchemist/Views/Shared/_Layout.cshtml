@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using TaskAlchemist.Helpers
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -20,8 +21,9 @@
                 @Html.ActionLink("Task Alchemist", "Index", "Home", null, new { @class = "brand" })
                 <div class="nav-collapse collapse">
                     <ul class="nav">
-                        <li>@Html.ActionLink("Await Methods", "Index", "Await")</li>
-                        <li>@Html.ActionLink("Fire & Forget Methods", "Index", "FireForget")</li>
+                        <li>@Html.MenuLink("Synchronous Methods", "Index", "Synchronous")</li>
+                        <li>@Html.MenuLink("Asynchronous Methods", "Index", "Asynchronous")</li>
+                        <li>@Html.MenuLink("Fire & Forget Methods", "Index", "FireForget")</li>
                     </ul>
                 </div>
             </div>

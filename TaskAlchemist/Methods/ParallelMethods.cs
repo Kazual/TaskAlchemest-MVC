@@ -11,7 +11,7 @@ namespace TaskAlchemist.Methods
     public static class ParallelMethods
     {
         
-        public static void AsyncVoidWithParallelProcessing()
+        public static void VoidWithParallelProcessing()
         {
 
             Stopwatch sw = new Stopwatch();
@@ -23,15 +23,13 @@ namespace TaskAlchemist.Methods
             delayTimes.Add(3000);
             delayTimes.Add(4000);
 
-            int i = 0;
-
             Parallel.ForEach(delayTimes, delay =>
             {
-                i++;
                 //Can't await this herre, so using Thread.Sleep instead:
                 //Task.Delay(delay);
+                Debug.WriteLine("AsyncVoidWithParallelProcessing (delay: {0}), started on thread: {1}", delay, Thread.CurrentThread.ManagedThreadId);
                 Thread.Sleep(delay);
-                Debug.WriteLine("AsyncVoidWithParallelProcessing {0}, on thread: {1}", i, Thread.CurrentThread.ManagedThreadId);
+                Debug.WriteLine("AsyncVoidWithParallelProcessing (delay: {0}), completed on thread: {1}", delay, Thread.CurrentThread.ManagedThreadId);
             });
 
             sw.Stop();
@@ -51,15 +49,15 @@ namespace TaskAlchemist.Methods
             delayTimes.Add(3000);
             delayTimes.Add(4000);
 
-            int i = 0;
 
             Parallel.ForEach(delayTimes, delay =>
             {
-                i++;
+
                 //Can't await this herre, so using Thread.Sleep instead:
                 //Task.Delay(delay);
+                Debug.WriteLine("AsyncVoidWithParallelProcessing (delay: {0}), started on thread: {1}", delay, Thread.CurrentThread.ManagedThreadId);
                 Thread.Sleep(delay);
-                Debug.WriteLine("AsyncVoidWithParallelProcessing {0}, on thread: {1}", i, Thread.CurrentThread.ManagedThreadId);
+                Debug.WriteLine("AsyncVoidWithParallelProcessing (delay: {0}), completed on thread: {1}", delay, Thread.CurrentThread.ManagedThreadId);
             });
 
             sw.Stop();

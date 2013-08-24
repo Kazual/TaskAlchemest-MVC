@@ -1,6 +1,10 @@
 ﻿@model TaskAlchemist.Models.ProcessingResult
 
-<h6>Processing complete!</h6>
-<p>Time: @Model.timeElapsed milliseconds</p>
-<p>Method Type: @Model.methodType</p>
-<p>Description: @Model.description</p>
+<div class="alert @Model.AlertType">
+
+    <h6>@Model.Message</h6>
+    <p>Time: @Model.TimeElapsed milliseconds</p>
+    <p>Method Type: @Model.MethodType</p>
+    <p>Description: @Model.Description</p>
+
+</div>

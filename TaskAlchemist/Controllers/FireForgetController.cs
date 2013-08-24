@@ -29,10 +29,11 @@ namespace TaskAlchemist.Controllers
             ProcessingResult result = new ProcessingResult();
 
             Debug.WriteLine("About to run process....");
+            Debug.WriteLine("Controller is on Thread: " + Thread.CurrentThread.ManagedThreadId);
 
             #endregion
 
-            result.description = "Task will still be running in the background. View trace statements in your 'Output' window. You may also fire additional tasks once control returns to the view.";
+            result.Description = "Task will still be running in the background. View trace statements in your 'Output' window. You may also fire additional tasks once control returns to the view.";
 
             switch (threadType)
             {
@@ -41,11 +42,13 @@ namespace TaskAlchemist.Controllers
 
                     //Simple method:
                     //Also, don't forget to use EXTENSIVE ERROR HANDLING in your routine because any unhandled exceptions outside of a debugger will abruptly crash your application:
-                    ThreadPool.QueueUserWorkItem(o => Methods.ParallelMethods.AsyncVoidWithParallelProcessing()); //<-- Preferred option fpr Fire/Forget when considering performance.
+                    ThreadPool.QueueUserWorkItem(o => Methods.ParallelMethods.VoidWithParallelProcessing()); //<-- Preferred option fpr Fire/Forget when considering performance.
 
                     //Alternate option:
                     //Task.Run(() => Methods.ParallelMethods.AsyncVoidWithParallelProcessing());  // <--- Task is preferred Option when not handling fire/forget scenarios: http://blogs.msdn.com/b/pfxteam/archive/2009/10/06/9903475.aspx
-                    
+
+                    result.Message = "Parallel Call Complete!";
+                    result.AlertType = "alert-success";;
 
                     break;
 
@@ -58,13 +61,16 @@ namespace TaskAlchemist.Controllers
                     //Also, don't forget to use EXTENSIVE ERROR HANDLING in your routine because any unhandled exceptions outside of a debugger will abruptly crash your application:
                     (new Thread(() =>
                     {
-                        Methods.ParallelMethods.AsyncVoidWithParallelProcessing();
+                        Methods.ParallelMethods.VoidWithParallelProcessing();
                     })
 
                     {
                         Name = "Long Running Work Thread (AsyncVoidWithParallelProcessing)",
                         Priority = ThreadPriority.AboveNormal
                     }).Start();
+
+                    result.Message = "Parallel Call Complete!";
+                    result.AlertType = "alert-success";
 
                     break;
 
@@ -79,11 +85,13 @@ namespace TaskAlchemist.Controllers
 
                     try
                     {
+                        
                         throw new System.Exception("Exception message");
                     }
-                    catch
+                    catch(Exception e)
                     {
-
+                        result.Message = "Exception Caught!";
+                        result.AlertType = "alert-error";
                     }
 
                     break;
@@ -96,10 +104,11 @@ namespace TaskAlchemist.Controllers
             #region Response
 
             Debug.WriteLine("Control is back origin thread.");
+            Debug.WriteLine("Controller is on Thread: " + Thread.CurrentThread.ManagedThreadId);
 
             stopWatch.Stop();
-            result.timeElapsed = stopWatch.ElapsedMilliseconds;
-            result.methodType = "Thread.Sleep()";
+            result.TimeElapsed = stopWatch.ElapsedMilliseconds;
+            result.MethodType = "Thread.Sleep()";
 
             return PartialView(result);
 

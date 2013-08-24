@@ -7,14 +7,20 @@
 </hgroup>
 <div>
 
-    <hr />
 
+
+<hr /><h6>Standard Methods</h6>
+
+
+
+
+<hr /><h6>Parallel Methods</h6>
 
     <script type="text/javascript">
         $(function () {
             $("#FireForget_Button_Basic").click(function () {
                 $("#FireForget_Button_Basic").attr("disabled", true);
-                $('#FireForget_Result').html("<div><img src='/img/loaders/preloader.gif' /></div>");
+                $('#FireForget_Result').html("<div><img src='/img/loaders/loader.gif' /></div>");
                 $.ajax({
                     url: '@Url.Action("_Response_PartialView", "FireForget", new {threadType="basic-thread"})',
                     data: { exampleParameter: "Example" },
@@ -38,7 +44,7 @@
         $(function () {
             $("#FireForget_Button_Detailed").click(function () {
                 $("#FireForget_Button_Detailed").attr("disabled", true);
-                $('#FireForget_Result').html("<div><img src='/img/loaders/preloader.gif' /></div>");
+                $('#FireForget_Result').html("<div><img src='/img/loaders/loader.gif' /></div>");
                 $.ajax({
                     url: '@Url.Action("_Response_PartialView", "FireForget", new {threadType="detailed-thread"})',
                     data: { exampleParameter: "Example" },
@@ -63,7 +69,7 @@
         $(function () {
             $("#FireForget_Button_Exception").click(function () {
                 $("#FireForget_Button_Exception").attr("disabled", true);
-                $('#FireForget_Result').html("<div><img src='/img/loaders/preloader.gif' /></div>");
+                $('#FireForget_Result').html("<div><img src='/img/loaders/loader.gif' /></div>");
                 $.ajax({
                     url: '@Url.Action("_Response_PartialView", "FireForget", new {threadType="exception"})',
                     data: { exampleParameter: "Example" },
@@ -86,7 +92,7 @@
         $(function () {
             $("#FireForget_Button_Exception_Catch").click(function () {
                 $("#FireForget_Button_Exception_Catch").attr("disabled", true);
-                $('#FireForget_Result').html("<div><img src='/img/loaders/preloader.gif' /></div>");
+                $('#FireForget_Result').html("<div><img src='/img/loaders/loader.gif' /></div>");
                 $.ajax({
                     url: '@Url.Action("_Response_PartialView", "FireForget", new {threadType="exception-catch"})',
                     data: { exampleParameter: "Example" },
@@ -105,8 +111,10 @@
 
 
 
-    <div id="FireForget_Result" style="background-color:azure">
-        <!-- FireForget 1 Result -->
+<hr />
+
+    <div id="FireForget_Result">
+        <!-- FireForget Result --><p class="text muted">Results Pane.</p>
     </div>
 
 

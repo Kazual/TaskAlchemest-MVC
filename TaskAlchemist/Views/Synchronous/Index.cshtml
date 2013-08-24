@@ -1,0 +1,92 @@
+﻿@{
+    ViewBag.Title = "Synchronous";
+}
+<hgroup>
+    <h2>@ViewBag.Title.</h2>
+    <h4>@ViewBag.Message</h4>
+</hgroup>
+<div>
+
+
+<hr /><h6>Standard Methods</h6>
+
+    <script type="text/javascript">
+        $(function () {
+            $("#Standard_Button_Void").click(function () {
+                $("#Standard_Button_Void").attr("disabled", true);
+                $('#Standard_Result').html("<div><img src='/img/loaders/loader.gif' /></div>");
+                $.ajax({
+                    url: '@Url.Action("_Response_PartialView", "Synchronous", new { type = "void" })',
+                    data: { exampleParameter: "Example" },
+                    contentType: "application/json; charset=utf-8",
+                    //Upon a successful request - data will store your Partial View contents
+                    success: function (data) {
+                        $("#Standard_Button_Void").attr("disabled", false);
+                        $('#Standard_Result').html(data);
+                    }
+                });
+            });
+        });
+    </script>
+    <p><input id="Standard_Button_Void" class="btn btn-primary" type="button" value="Void Method (Standard)" /></p>
+
+
+
+
+    <script type="text/javascript">
+        $(function () {
+            $("#Standard_Button_Response").click(function () {
+                $("#Standard_Button_Response").attr("disabled", true);
+                $('#Standard_Result').html("<div><img src='/img/loaders/loader.gif' /></div>");
+                $.ajax({
+                    url: '@Url.Action("_Response_PartialView", "Synchronous", new { type = "string-response" })',
+                    data: { exampleParameter: "Example" },
+                    contentType: "application/json; charset=utf-8",
+                    //Upon a successful request - data will store your Partial View contents
+                    success: function (data) {
+                        $("#Standard_Button_Response").attr("disabled", false);
+                        $('#Standard_Result').html(data);
+                    }
+                });
+            });
+        });
+    </script>
+    <p><input id="Standard_Button_Response" class="btn btn-primary" type="button" value="Response Method (Standard)" /></p>
+
+
+
+
+
+<hr /><h6>Parallel Methods</h6>
+
+    <script type="text/javascript"> 
+        $(function(){
+            $("#Standard_Button_Parallel").click(function () {
+                $("#Standard_Button_Parallel").attr("disabled", true);
+                $('#Standard_Result').html("<div><img src='/img/loaders/loader.gif' /></div>");
+                  $.ajax({
+                      url: '@Url.Action("_Response_PartialView", "Synchronous", new { type = "basic-parallel" })',
+                      data: { exampleParameter : "Example" },
+                      contentType: "application/json; charset=utf-8",
+                      //Upon a successful request - data will store your Partial View contents
+                      success: function (data) {
+                          $("#Standard_Button_Parallel").attr("disabled", false);
+                          $('#Standard_Result').html(data);
+                      }
+                  });
+             });
+        });
+    </script>
+    <p><input id="Standard_Button_Parallel" class="btn btn-primary" type="button" value="Parallel Tasks (Standard)" /></p>
+
+
+
+<hr />
+
+
+    <div id="Standard_Result">
+        <!-- Await Result --><p class="text muted">Results Pane.</p>
+    </div>
+
+
+</div>
