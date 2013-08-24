@@ -11,6 +11,7 @@
 
 
 <hr /><h6>Standard Methods</h6>
+<p>These calls use Async/Await, but offer no immediate improvement to their synchronous counterparts except they may increase performance and thread management under heavy loads.</p>
 
 
 
@@ -95,6 +96,12 @@
 
     <hr />
 
+
+
+
+
+    <hr />
+
     <div>
 
         <h2>More on Asynchronous Methods</h2>
@@ -125,8 +132,63 @@
             <li>Testing shows that the blocking operations are a bottleneck in site performance and that IIS can service more requests by using asynchronous action methods for these blocking calls.</li>
             <li>Parallelism is more important than simplicity of code.</li>
             <li>You want to provide a mechanism that lets users cancel a long-running request.</li>
+            <li>When the benefit of switching threads out weights the cost of the context switch. In general, you should make a method asynchronous if the synchronous method waits on the ASP.NET request thread while doing no work.  By making the call asynchronous,  the ASP.NET request thread is not stalled doing no work while it waits for the web service request to complete.</li>
+            <li>Testing shows that the blocking operations are a bottleneck in site performance and that IIS can service more requests by using asynchronous methods for these blocking calls.</li>
         </ul>
 
+
+        <h2>Key Takeaways:</h2>
+        <h4>Async calls are HEAVY. Use them wisely. Focus on areas where there are keywords in the framework that tell you it makes sense. For example: <u>HttpClient.GetAsync</u></h4>
+        <h4>Asynchronos calls are NOT faster that synchronous calls. They are better at handling network bound or I/O bound calls, give you a mechanism for cancelling long running processes and because of this can prevent request queuing and thread pool growth when there are many concurrent requests that invike long running operation</h4>
+        <h4>There is some argument about the use of Async for DB calls: For database applications using async operations to reduce the number of blocked threads on the web server is almost always a  complete waste of time.  A small web server can easily handle way more simultaneous blocking requests than your database back-end can process concurrently.  Instead make sure your service calls are cheap at the database, and limit the number of concurrently executing requests to a number that you have tested to work correctly and maximize overall transaction throughput.</h4>
+        <h4>The 3 kwywords are: async, await & task. The pattern is known as Task based Asynchronous Pattern (TAP)</h4>
+
+        <h2>FAQ</h2>
+
+        <h2>What does the “async” keyword do when applied to a method?</h2>
+        <h5>When you mark a method with the “async” keyword, you’re really telling the compiler two things:</h5>
+        <h5>
+            1. You’re telling the compiler that you want to be able to use the “await” keyword inside the method (you can use the await keyword if and only if the method or lambda it’s in is marked as async). In doing so, you’re telling the compiler to compile the method using a state machine, such that the method will be able to suspend and then resume asynchronously at await points.
+            <br />2. You’re telling the compiler to “lift” the result of the method or any exceptions that may occur into the return type. For a method that returns Task or Task<tresult>, this means that any returned value or exception that goes unhandled within the method is stored into the result task. For a method that returns void, this means that any exceptions are propagated to the caller’s context via whatever “SynchronizationContext” was current at the time of the method’s initial invocation.
+        </h5>
+
+
+        <h2>Does using the “async” keyword on a method force all invocations of that method to be asynchronous?</h2>
+        <h5>No. When you invoke a method marked as “async”, it begins running synchronously on the curren thread. So, if you have a synchronous method that returns void and all you do to change it is mark it as “async”, invocations of that method will still run synchronously. This is true regardless of whether you leave the return type as “void” or change it to “Task”. Similarly, if you have a synchronous method that returns some TResult, and all you do is mark it as “async” and change the return type to be “Task<tresult>
+    ”, invocations of that method will still run synchronously.
+    Marking a method as “async” does not affect whether the method runs to completion synchronously or asynchronously. Rather, it enables the method to be split into multiple pieces, some of which may run asynchronously, such that the method may complete asynchronously. The boundaries of these pieces can occur only where you explicitly code one using the “await” keyword, so if “await” isn’t used at all in a method’s code, there will only be one piece, and since that piece will start running synchronously, it (and the whole method with it) will complete synchronously.
+</h5>
+
+        <h2>Can I mark any method as “async”?</h2>
+        <h5>No. Only methods that return void, Task, or Task,< tresult > can be marked as async. Further, not all such methods can be marked as “async”.</h5>
+
+        <h2>What is the main goal of Asynchrony</h2>
+        <h5>Asynchrony is geared for potentially long-running operations.</h5>
+
+        <h2>What does the “await” keyword do?</h2>
+        <h5>The “await” keyword tells the compiler to insert a possible suspension/resumption point into a method marked as “async”.</h5>
+
+
+        <h2>Is “await task;” the same thing as “task.Wait()”?</h2>
+        <h5>
+            No.
+            “task.Wait()” is a synchronous, potentially blocking call: it will not return to the caller of Wait() until the task has entered a final state, meaning that it’s completed in the RanToCompletion, Faulted, or Canceled state. In contrast, “await task;” tells the compiler to insert a potential suspension/resumption point into a method marked as “async”, such that if the task has not yet completed when it’s awaited, the async method should return to its caller, and its execution should resume when and only when the awaited task completes. Using “task.Wait()” when “await task;” would have been more appropriate can lead to unresponsive applications and deadlocks
+        </h5>
+
+
+
+        <h2></h2>
+        <h5></h5>
+
+
+
+        <h2></h2>
+        <h5></h5>
+
+
+
+        <h2></h2>
+        <h5></h5>
 
 
     </div>

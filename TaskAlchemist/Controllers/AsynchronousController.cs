@@ -19,7 +19,10 @@ namespace TaskAlchemist.Controllers
             return View();
         }
 
-        public async Task<ActionResult> _Response_PartialView(string type)
+        //[AsyncTimeout(20)] //<-- Timeout Length
+        //[NoAsyncTimeout] //<-- No Timeouts for Async Operation
+        //[HandleError(ExceptionType=typeof(TimeoutException), View="TimeoutError")] //<-- Handle the Timeout Error
+        public async Task<ActionResult> _Response_PartialView(string type) //, CancellationToken cancellationToken) //<-- Cancellation Token
         {
             #region Initialization
 

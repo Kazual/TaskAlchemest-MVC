@@ -152,6 +152,7 @@
     <Content Include="Views\Asynchronous\Index.cshtml" />
     <Content Include="Views\Shared\_Response_PartialView.cshtml" />
     <Content Include="Views\Synchronous\Index.cshtml" />
+    <Content Include="Views\Shared\TimeoutError.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
