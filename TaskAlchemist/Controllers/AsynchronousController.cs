@@ -19,10 +19,7 @@ namespace TaskAlchemist.Controllers
             return View();
         }
 
-        //[AsyncTimeout(20)] //<-- Timeout Length
-        //[NoAsyncTimeout] //<-- No Timeouts for Async Operation
-        //[HandleError(ExceptionType=typeof(TimeoutException), View="TimeoutError")] //<-- Handle the Timeout Error
-        public async Task<ActionResult> _Response_PartialView(string type) //, CancellationToken cancellationToken) //<-- Cancellation Token
+        public async Task<ActionResult> _Response_PartialView(string type)
         {
             #region Initialization
 
@@ -70,7 +67,7 @@ namespace TaskAlchemist.Controllers
 
                     result.Result = await (new Methods.BasicMethods()).AsyncStringResultProcessingTask();
 
-                    result.Description = "Result ='" + result.Result + "'";
+                    result.Description = "Result = '" + result.Result + "'";
                     result.Message = "Await Results Task Complete!";
                     result.AlertType = "alert-success";
                     result.MethodType = "AsyncStringResultProcessingTask";
@@ -95,6 +92,73 @@ namespace TaskAlchemist.Controllers
             #endregion 
 
 
+        }
+
+
+        [AsyncTimeout(20)] //<-- Timeout Length in Milliseconds
+        //[NoAsyncTimeout] //<-- No Timeouts for Async Operation
+        [HandleError(ExceptionType=typeof(TimeoutException), View="_TimeoutError")] //<-- Handle the Timeout Error
+        public async Task<ActionResult> _Response_Timeout(string type, CancellationToken cancellationToken) //<-- Cancellation Token
+        {
+            #region Initialization
+
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();
+            ProcessingResult result = new ProcessingResult();
+
+            Debug.WriteLine("About to run process....");
+            Debug.WriteLine("Controller is on Thread: " + Thread.CurrentThread.ManagedThreadId);
+
+            #endregion
+
+            switch(type)
+            {
+                case "timeout":
+
+                    // call is awaited, so Timeout Exception will not stop this thread, it will only disconnect the callback:
+                    result.Result = await (new Methods.BasicMethods()).AsyncStringResultProcessingTask();
+
+                    result.Description = "Result = '" + result.Result + "'";
+                    result.Message = "Timeout Results Task Complete!";
+                    result.AlertType = "alert-error";
+                    result.MethodType = "Timeout: ";
+
+                    break;
+
+                case "timeout-handle-exception":
+
+                    //Tell cancellation token to throw if exception occurs:
+                    cancellationToken.ThrowIfCancellationRequested();
+
+                    try
+                    {
+                        result.Result = await (new Methods.BasicMethods()).AsyncStringResultProcessingTask();
+
+                        result.Description = "Result = '" + result.Result + "'";
+                        result.Message = "Timeout Results Task Complete!";
+                        result.AlertType = "alert-error";
+                        result.MethodType = "Timeout: ";
+                    }
+                    catch(Exception e)
+                    {
+
+                    }
+
+                    break;
+            }
+
+            #region Response
+
+            Debug.WriteLine("Control is back origin thread.");
+            Debug.WriteLine("Controller is on Thread: " + Thread.CurrentThread.ManagedThreadId);
+
+            stopWatch.Stop();
+            result.TimeElapsed = stopWatch.ElapsedMilliseconds;
+
+
+            return PartialView(result);
+
+            #endregion 
         }
     }
 }

@@ -94,8 +94,61 @@
     </div>
 
 
+
+
+    <hr /><h5>Asynchronous Specific Methods</h5>
+    <p>Implementations that are specific to Asynchronous Controllers in the MVC Framework</p>
+
     <hr />
 
+
+    <script type="text/javascript">
+
+        $(function(){
+            $("#Await_Button_Timeout").click(function () {
+                $("#Await_Button_Timeout").attr("disabled", true);
+                $('#Await_Result').html("<div><img src='/img/loaders/loader.gif' /></div>");
+                  $.ajax({
+                      url: '@Url.Action("_Response_Timeout", "Asynchronous", new { type = "timeout" })',
+                      data: { exampleParameter : "Example" },
+                      contentType: "application/json; charset=utf-8",
+                      //Upon a successful request - data will store your Partial View contents
+                      success: function (data) {
+                          $("#Await_Button_Timeout").attr("disabled", false);
+                          $('#Await_Result').html(data);
+                      }
+                  });
+             });
+        });
+    </script>
+    <p><input id="Await_Button_Timeout" class="btn btn-primary" type="button" value="Timeout Task (20 milliseconds)" /></p>
+
+    <div>Method will Timeout, but will continue processing on thread. Due to the timeout origin thread will disconnect with no error handling.</div>
+
+
+
+    <script type="text/javascript">
+
+        $(function(){
+            $("#Await_Button_Timeout_WithException").click(function () {
+                $("#Await_Button_Timeout_WithException").attr("disabled", true);
+                $('#Await_Result').html("<div><img src='/img/loaders/loader.gif' /></div>");
+                  $.ajax({
+                      url: '@Url.Action("_Response_Timeout", "Asynchronous", new { type = "timeout-handle-exception" })',
+                      data: { exampleParameter : "Example" },
+                      contentType: "application/json; charset=utf-8",
+                      //Upon a successful request - data will store your Partial View contents
+                      success: function (data) {
+                          $("#Await_Button_Timeout_WithException").attr("disabled", false);
+                          $('#Await_Result').html(data);
+                      }
+                  });
+             });
+        });
+    </script>
+    <p><input id="Await_Button_Timeout_WithException" class="btn btn-primary" type="button" value="Timeout Task (20 milliseconds w/ Exception Handling)" /></p>
+
+    <div>Method will Timeout, Error is handled.</div>
 
 
 
