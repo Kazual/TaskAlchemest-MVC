@@ -96,10 +96,66 @@
 
 
 
-    <hr /><h5>Asynchronous Specific Methods</h5>
-    <p>Implementations that are specific to Asynchronous Controllers in the MVC Framework</p>
+    <hr /><h5>Await/WhenAll Comparison Methods</h5>
+    <hr />
+
+
+    <script type="text/javascript">
+
+        $(function(){
+            $("#Await_Button_MultipleTasks_Awaited").click(function () {
+                $("#Await_Button_MultipleTasks_Awaited").attr("disabled", true);
+                $('#Await_Result').html("<div><img src='/img/loaders/loader.gif' /></div>");
+                  $.ajax({
+                      url: '@Url.Action("_Response_PartialView", "Asynchronous", new { type = "multiple-tasks-awaited" })',
+                      data: { exampleParameter : "Example" },
+                      contentType: "application/json; charset=utf-8",
+                      //Upon a successful request - data will store your Partial View contents
+                      success: function (data) {
+                          $("#Await_Button_MultipleTasks_Awaited").attr("disabled", false);
+                          $('#Await_Result').html(data);
+                      }
+                  });
+             });
+        });
+    </script>
+    <p><input id="Await_Button_MultipleTasks_Awaited" class="btn btn-primary" type="button" value="Multiple Tasks (Awaited)" /></p>
+
+
+
+
+    <script type="text/javascript">
+
+        $(function(){
+            $("#Await_Button_MultipleTasks_WhenAll").click(function () {
+                $("#Await_Button_MultipleTasks_WhenAll").attr("disabled", true);
+                $('#Await_Result').html("<div><img src='/img/loaders/loader.gif' /></div>");
+                  $.ajax({
+                      url: '@Url.Action("_Response_PartialView", "Asynchronous", new { type = "multiple-tasks-when-all" })',
+                      data: { exampleParameter : "Example" },
+                      contentType: "application/json; charset=utf-8",
+                      //Upon a successful request - data will store your Partial View contents
+                      success: function (data) {
+                          $("#Await_Button_MultipleTasks_WhenAll").attr("disabled", false);
+                          $('#Await_Result').html(data);
+                      }
+                  });
+             });
+        });
+    </script>
+    <p><input id="Await_Button_MultipleTasks_WhenAll" class="btn btn-primary" type="button" value="Multiple Tasks (WhenAll)" /> Should be twice as fast as the Awaited version</p>
+
+
+
+
+
+
+
+
+    <hr /><h5>AsyncTimeouts, CancellationTokens & Error Handlng</h5>
 
     <hr />
+
 
 
     <script type="text/javascript">
@@ -121,9 +177,7 @@
              });
         });
     </script>
-    <p><input id="Await_Button_Timeout" class="btn btn-primary" type="button" value="Timeout Task (20 milliseconds)" /></p>
-
-    <div>Method will Timeout, but will continue processing on thread. Due to the timeout origin thread will disconnect with no error handling.</div>
+    <p><input id="Await_Button_Timeout" class="btn btn-primary" type="button" value="Timeout Task (20 milliseconds)" /> Method will Timeout, but will continue processing on thread. Due to the timeout origin thread will disconnect with no error handling.</p>
 
 
 
@@ -146,9 +200,7 @@
              });
         });
     </script>
-    <p><input id="Await_Button_Timeout_WithException" class="btn btn-primary" type="button" value="Timeout Task (20 milliseconds w/ Exception Handling)" /></p>
-
-    <div>Method will Timeout, Error is handled.</div>
+    <p><input id="Await_Button_Timeout_WithException" class="btn btn-primary" type="button" value="Timeout Task (20 milliseconds w/ Exception Handling)" /> Method will Timeout, Error is handled. (To Fix)</p>
 
 
 
@@ -158,7 +210,7 @@
     <div>
 
         <h2>More on Asynchronous Methods</h2>
-        <h4>In applications where thread starvation might occur, you can configure actions to be processed asynchronously. <u>An asynchronous request takes the same amount of time to process as a synchronous request</u>. For example, if a request makes a network call that requires two seconds to complete, the request takes two seconds whether it is performed synchronously or asynchronously. <u>However, during an asynchronous call, the server is not blocked from responding to other requests while it waits for the first request to complete</u>. Therefore, asynchronous requests<u>prevent request queuing when there are many requests that invoke long-running operations and will run on a seperate thread</u>. View will not be returned unting all tasks are complete.</h4>
+        <h4>In applications where thread starvation might occur, you can configure actions to be processed asynchronously. <u>An asynchronous request takes the same amount of time to process as a synchronous request</u>. For example, if a request makes a network call that requires two seconds to complete, the request takes two seconds whether it is performed synchronously or asynchronously. <u>However, during an asynchronous call, the server is not blocked from responding to other requests while it waits for the first request to complete</u>. Therefore, asynchronous requests <u>prevent request queuing when there are many requests that invoke long-running operations and will run on a seperate thread</u>. View will not be returned until all tasks are complete.</h4>
         <h4>When an asynchronous action is invoked, the following steps occur:</h4>
 
         <p>1. The Web server gets a thread from the thread pool (the worker thread) and schedules it to handle an incoming request. This worker thread initiates an asynchronous operation.</p>

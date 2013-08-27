@@ -128,6 +128,7 @@
     <Content Include="img\glyphicons-halflings-white.png" />
     <Content Include="img\glyphicons-halflings.png" />
     <Content Include="img\illustrations\async1.png" />
+    <Content Include="img\illustrations\thread-debugger.jpg" />
     <Content Include="img\loaders\loader.gif" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

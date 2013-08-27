@@ -54,7 +54,8 @@ namespace TaskAlchemist.Methods
             foreach (int d in delayTimes)
             {
                 Debug.WriteLine("Basic: AsyncVoidProcessingTask {0}, started on thread: {1}", d, Thread.CurrentThread.ManagedThreadId);
-                Thread.Sleep(d);
+                //Thread.Sleep(d);
+                await Task.Delay(d);
                 Debug.WriteLine("Basic: AsyncVoidProcessingTask {0}, completed on thread: {1}", d, Thread.CurrentThread.ManagedThreadId);
             }
 
@@ -107,7 +108,8 @@ namespace TaskAlchemist.Methods
             foreach (int d in delayTimes)
             {
                 Debug.WriteLine("Basic: AsyncStringResultProcessingTask {0}, started on thread: {1}", d, Thread.CurrentThread.ManagedThreadId);
-                Thread.Sleep(d);
+                //Thread.Sleep(d);
+                Task.Delay(d);
                 Debug.WriteLine("Basic: AsyncStringResultProcessingTask {0}, completed on thread: {1}", d, Thread.CurrentThread.ManagedThreadId);
             }
 

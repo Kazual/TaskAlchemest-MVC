@@ -74,6 +74,43 @@ namespace TaskAlchemist.Controllers
 
 
                     break;
+
+                case "multiple-tasks-awaited":
+
+                    //Run Tasks in order using await:
+                    string str = await (new Methods.BasicMethods()).AsyncStringResultProcessingTask();
+                    await Methods.BasicMethods.AsyncVoidProcessingTask();
+                    await Methods.BasicMethods.AsyncVoidProcessingTask(); 
+                    await Methods.ParallelMethods.AsyncVoidWithParallelProcessingTask(); 
+
+                    result.Description = "Result = '" + result.Result + "'";
+                    result.Message = "Multiple Tasks Complete!";
+                    result.AlertType = "alert-success";
+                    result.MethodType = "AsyncStringResultProcessingTask, AsyncVoidProcessingTask & AsyncVoidWithParallelProcessingTask";
+
+
+                    break;
+
+                case "multiple-tasks-when-all":
+
+
+                    //Set up our same Tasks in order used in Synchronous version:
+                    var task1 =  (new Methods.BasicMethods()).AsyncStringResultProcessingTask();
+                    var task2 = Methods.BasicMethods.AsyncVoidProcessingTask();
+                    var task3 = Methods.BasicMethods.AsyncVoidProcessingTask();
+                    var task4 = Methods.ParallelMethods.AsyncVoidWithParallelProcessingTask();
+
+                    //Run them in parallel and continue:
+                    await Task.WhenAll(task1, task2, task3);
+
+
+                    result.Description = "Result = '" + result.Result + "'";
+                    result.Message = "Multiple Tasks Complete!";
+                    result.AlertType = "alert-success";
+                    result.MethodType = "AsyncStringResultProcessingTask, AsyncVoidProcessingTask & AsyncVoidWithParallelProcessingTask";
+
+
+                    break;
             }
 
 
