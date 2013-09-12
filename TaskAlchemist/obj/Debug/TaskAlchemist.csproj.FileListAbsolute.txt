@@ -57,4 +57,3 @@ C:\Users\KDugandzic\github\TaskAlchemist-MVC\TaskAlchemist\bin\System.Web.WebPag
 C:\Users\KDugandzic\github\TaskAlchemist-MVC\TaskAlchemist\obj\Debug\TaskAlchemist.csprojResolveAssemblyReference.cache
 C:\Users\KDugandzic\github\TaskAlchemist-MVC\TaskAlchemist\obj\Debug\TaskAlchemest.dll
 C:\Users\KDugandzic\github\TaskAlchemist-MVC\TaskAlchemist\obj\Debug\TaskAlchemest.pdb
-C:\Users\KDugandzic\github\TaskAlchemist-MVC\TaskAlchemist\bin\TaskAlchemest.dll.config

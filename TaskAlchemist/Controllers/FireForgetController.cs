@@ -40,9 +40,21 @@ namespace TaskAlchemist.Controllers
 
                 case "basic-thread":
 
+                    //BEST method for ASP.NET:
+                    //Fire & Forget on a background thread
+                    System.Threading.ThreadStart threadStart = delegate
+                    {
+                        Methods.ParallelMethods.VoidWithParallelProcessing();
+
+                    };
+                    System.Threading.Thread thread = new System.Threading.Thread(threadStart);
+                    thread.IsBackground = true;
+                    thread.Start(); //<-- Preferred option fpr Fire/Forget when considering not disturbing the ThreadPool in ASP.NET.
+
+
                     //Simple method:
                     //Also, don't forget to use EXTENSIVE ERROR HANDLING in your routine because any unhandled exceptions outside of a debugger will abruptly crash your application:
-                    ThreadPool.QueueUserWorkItem(o => Methods.ParallelMethods.VoidWithParallelProcessing()); //<-- Preferred option fpr Fire/Forget when considering performance.
+                    //ThreadPool.QueueUserWorkItem(o => Methods.ParallelMethods.VoidWithParallelProcessing()); //<-- Preferred option fpr Fire/Forget when considering performance (but not for ASP.NET).
 
                     //Alternate option:
                     //Task.Run(() => Methods.ParallelMethods.AsyncVoidWithParallelProcessing());  // <--- Task is preferred Option when not handling fire/forget scenarios: http://blogs.msdn.com/b/pfxteam/archive/2009/10/06/9903475.aspx
